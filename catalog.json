@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "packs": [
+    {
+      "code": "DINOSMP",
+      "id": "dinosmp",
+      "name": "Dino SMP",
+      "version": "1.0.0",
+      "server": "mc.universocraft.com",
+      "mrpack": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/main/packs/dinosmp.mrpack",
+      "sha512": "42dfbdb8bf64a681ce5f27692bcd1a12c05fc8feb8bf90cb3d550f86ce42172e8995c26e1edcb02be2b1b96f2b28342e9070d437b7dc5062865b98c57670ea68",
+      "bytes": 8262,
+      "minecraft": "26.2",
+      "loader": "Fabric 0.19.5",
+      "mods": 52
+    }
+  ]
+}
