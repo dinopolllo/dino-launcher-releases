@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Te invitaron a jugar · Dino Launcher</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#03060A">
+<!--
+  Página de invitación. Existe porque Discord, WhatsApp y compañía no convierten un
+  `dinolauncher://…` en algo pulsable: el link que se comparte es este (https), y esta
+  página es la que abre el launcher.
+
+  Contrato con quien la enlaza: el código va detrás de la almohadilla,
+  `…/invitar/#CODIGO`. La almohadilla no viaja al servidor, así que el código no queda
+  en ningún log de GitHub Pages.
+
+  Los ids son el contrato con el diseño: la lógica de abajo solo los busca por id.
+-->
+
+<!-- La vista previa que dibujan Discord y WhatsApp al pegar el link. Es genérica a la
+     fuerza: el código va detrás de la almohadilla, que no viaja al servidor, así que el
+     robot que lee estas etiquetas no sabe de qué pack se trata. -->
+<meta name="description" content="Te pasaron un modpack de Minecraft. Ábrelo con Dino Launcher y entra a jugar.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dino Launcher">
+<meta property="og:title" content="Te invitaron a jugar">
+<meta property="og:description" content="Un modpack de Minecraft listo para jugar. Ábrelo con Dino Launcher.">
+<meta property="og:image" content="https://dinopolllo.github.io/dino-launcher-releases/invitar/preview.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="preview.png">
+<link rel="apple-touch-icon" href="preview.png">
+
+<!-- Las mismas tres fuentes que el launcher. Son opcionales: sin red o sin Google la
+     página cae a las del sistema y se ve igual de ordenada. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+
+<style>
+  /* Los tokens son los del launcher: quien abre el link tiene que reconocer, al abrir
+     la app, lo mismo que acaba de ver aquí. */
+  :root{
+    --ink:#03060A;
+    --text:#E6F1E8;
+    --dim:#8FA094;
+    --faint:#66786B;
+    --green:#73BF69;
+    --green-hot:#4A9A44;
+    --green-deep:#0B4623;
+    --green-glow:rgba(115,191,105,.50);
+    --hairline:rgba(255,255,255,.08);
+    --hairline-strong:rgba(255,255,255,.14);
+    --font-display:"Bricolage Grotesque","Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-body:"Instrument Sans","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+
+  /* El fondo va en `html` y no en `body`: el mesh está en z-index -1, y un fondo en
+     `body` se pintaría encima de él. */
+  html{background:var(--ink)}
+  body{
+    margin:0;min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:32px 18px;
+    padding-top:max(32px, env(safe-area-inset-top));
+    padding-bottom:max(32px, env(safe-area-inset-bottom));
+    color:var(--text);
+    font-family:var(--font-body);font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- lo que el vidrio refracta ----------
+     El mismo mesh verde del launcher. Aquí el vidrio sí lo ve —en el navegador
+     `backdrop-filter` desenfoca lo que hay detrás de verdad—, así que la lámina de
+     encima se lee como vidrio sin tener que imitarlo. */
+  .mesh{
+    position:fixed;inset:-15%;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(42% 36% at 22% 20%, rgba(115,191,105,.30), transparent 70%),
+      radial-gradient(40% 42% at 82% 18%, rgba(11,70,35,.60), transparent 70%),
+      radial-gradient(48% 40% at 72% 84%, rgba(115,191,105,.16), transparent 70%),
+      radial-gradient(54% 48% at 22% 82%, rgba(12,58,40,.70), transparent 70%);
+    animation:drift 38s ease-in-out infinite alternate;
+  }
+  .mesh::after{
+    content:"";position:absolute;inset:0;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size:3px 3px;
+  }
+  @keyframes drift{
+    0%{transform:translate3d(0,0,0) scale(1)}
+    50%{transform:translate3d(2.5%,-2%,0) scale(1.05)}
+    100%{transform:translate3d(-2%,2.5%,0) scale(1.02)}
+  }
+
+  /* ---------- marca ---------- */
+  .brand{
+    display:flex;align-items:center;gap:10px;margin-bottom:20px;
+    font-family:var(--font-display);font-weight:800;font-size:12.5px;
+    letter-spacing:.14em;text-transform:uppercase;
+  }
+
+  /* ---------- el tile del icono ----------
+     La misma pieza que `.app-icon` en el launcher: vidrio verde, brillo arriba a la
+     izquierda, resplandor abajo. El dino es el sprite de la app; el `<img>` del pack,
+     si lo hay, lo pone el JS y ocupa su sitio al 70%, igual que en el launcher. */
+  .tile{
+    --s:84px;
+    position:relative;flex:none;
+    width:var(--s);height:var(--s);
+    border-radius:calc(var(--s) * .27);
+    display:grid;place-items:center;overflow:hidden;
+    background:
+      linear-gradient(155deg, rgba(255,255,255,.17), rgba(115,191,105,.07) 48%, rgba(115,191,105,.20)),
+      #07130C;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.55),
+      inset 0 0 0 1px rgba(153,217,132,.34),
+      inset 0 calc(var(--s) * -.16) calc(var(--s) * .30) calc(var(--s) * -.18) rgba(115,191,105,.65),
+      0 0 calc(var(--s) * .42) calc(var(--s) * -.10) var(--green-glow),
+      0 calc(var(--s) * .16) calc(var(--s) * .36) calc(var(--s) * -.20) rgba(0,0,0,.9);
+  }
+  .tile::before{
+    content:"";position:absolute;top:6%;left:8%;width:40%;height:27%;
+    border-radius:50%;z-index:2;pointer-events:none;
+    background:linear-gradient(160deg, rgba(255,255,255,.75), rgba(255,255,255,0));
+    filter:blur(calc(var(--s) * .045));
+  }
+  /* Los dos en la misma celda: si `:has` no existe en el navegador, el icono del pack
+     tapa al dino en vez de apilarse debajo. */
+  .tile .dino, .tile img{grid-area:1/1;position:relative;z-index:1;width:70%;height:auto}
+  .tile .dino{filter:drop-shadow(0 0 calc(var(--s) * .10) rgba(115,191,105,.8))}
+  .tile img{border-radius:14%}
+  .tile:has(img) .dino{display:none}
+  .brand .tile{--s:28px}
+
+  /* ---------- la lámina ----------
+     Una sola hoja de vidrio. El HIG de Apple usa la variante regular —desenfoca y
+     ajusta la luminosidad de lo de detrás— para piezas con texto, como una alerta;
+     esto es eso: una alerta que te invita. */
+  .card{
+    width:100%;max-width:420px;
+    display:flex;flex-direction:column;
+    padding:30px 26px 24px;
+    border-radius:30px;
+    background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035) 42%, rgba(255,255,255,.045));
+    -webkit-backdrop-filter:blur(30px) saturate(170%);
+    backdrop-filter:blur(30px) saturate(170%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.20),
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      0 44px 90px -34px rgba(0,0,0,.9),
+      0 12px 32px -16px rgba(0,0,0,.6);
+    animation:rise .55s cubic-bezier(.22,.68,0,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+
+  .pack{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .from{
+    margin-top:20px;
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--faint);
+  }
+  h1{
+    margin:7px 0 0;
+    font-family:var(--font-display);font-weight:800;
+    font-size:clamp(25px, 7.4vw, 31px);line-height:1.08;letter-spacing:-.022em;
+    text-wrap:balance;overflow-wrap:anywhere;
+  }
+  /* Reserva su línea aunque venga vacía: la ficha llega del catálogo después de pintar,
+     y sin esto el botón de debajo daría un salto al llegar. */
+  .meta{
+    margin-top:9px;min-height:1.5em;
+    font-family:var(--font-mono);font-size:12px;color:var(--dim);
+  }
+
+  /* ---------- botones ----------
+     Cápsulas, como los controles de Liquid Glass. El primario es la misma receta que el
+     botón de Jugar del launcher. */
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    width:100%;margin-top:24px;padding:15px 20px;
+    border:0;border-radius:999px;cursor:pointer;text-decoration:none;
+    font-family:var(--font-display);font-weight:700;font-size:16px;
+    color:#04170A;
+    background:linear-gradient(165deg,#99D984,var(--green) 48%,var(--green-hot) 80%,var(--green-deep));
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.5),
+      inset 0 -1px 0 rgba(0,0,0,.2),
+      0 14px 32px -12px var(--green-glow),
+      0 2px 6px rgba(0,0,0,.4);
+    transition:transform .16s cubic-bezier(.32,.72,0,1), box-shadow .16s ease, background .16s ease;
+  }
+  .btn:hover{transform:translateY(-1.5px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 18px 40px -12px rgba(115,191,105,.6),0 2px 6px rgba(0,0,0,.4)}
+  .btn:active{transform:none}
+  .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .btn.sec{
+    margin-top:12px;padding:12px 18px;
+    font-family:var(--font-body);font-weight:600;font-size:14px;
+    color:var(--text);background:rgba(255,255,255,.06);
+    box-shadow:inset 0 1px 0 var(--hairline-strong), inset 0 0 0 1px var(--hairline);
+  }
+  .btn.sec:hover{background:rgba(255,255,255,.11);
+    box-shadow:inset 0 1px 0 var(--hairline-strong), inset 0 0 0 1px var(--hairline)}
+  .btn.sec:focus-visible{outline-color:var(--green)}
+
+  /* ---------- secciones secundarias ---------- */
+  .block{
+    margin-top:24px;padding-top:20px;
+    border-top:1px solid var(--hairline);
+    text-align:center;
+  }
+  .block p{margin:0;font-size:13.5px;line-height:1.5;color:var(--dim);text-wrap:pretty}
+  .block b{color:var(--text);font-weight:600}
+
+  /* El código es para teclearlo en otro sitio: mono y con aire entre letras, para que se
+     lea carácter a carácter. El botón va dentro del campo, concéntrico con él. */
+  .code{
+    display:flex;align-items:center;gap:8px;margin-top:12px;
+    padding:6px 6px 6px 20px;border-radius:999px;
+    background:rgba(0,0,0,.30);box-shadow:inset 0 0 0 1px var(--hairline);
+  }
+  .code code{
+    flex:1;min-width:0;text-align:left;
+    font-family:var(--font-mono);font-size:17px;font-weight:500;letter-spacing:.14em;
+    color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .code button{
+    flex:none;border:0;cursor:pointer;border-radius:999px;padding:9px 16px;
+    font-family:var(--font-body);font-size:13px;font-weight:600;
+    color:var(--text);background:rgba(255,255,255,.08);
+    box-shadow:inset 0 1px 0 var(--hairline-strong), inset 0 0 0 1px var(--hairline);
+    transition:background .16s ease;
+  }
+  .code button:hover{background:rgba(255,255,255,.14)}
+  .code button.copied{color:var(--green)}
+  .code button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+  /* ---------- link sin código ----------
+     Sin código no hay pack que enseñar ni código que copiar, así que la hoja se queda
+     en el aviso y la descarga. El aviso sube arriba con `order`: es lo primero que hay
+     que leer. */
+  .error{
+    order:-1;margin:0;text-align:center;
+    border-radius:20px;padding:15px 18px;
+    background:rgba(255,107,122,.09);
+    box-shadow:inset 0 0 0 1px rgba(255,107,122,.28);
+    color:#F5C9CE;font-size:14px;line-height:1.5;
+  }
+  .card:has(#invError:not([hidden])) .pack,
+  .card:has(#invError:not([hidden])) .codeblock{display:none}
+
+  .foot{margin-top:20px;font-size:12px;color:var(--faint);text-align:center}
+
+  /* ---------- móvil ---------- */
+  @media (max-width:430px){
+    body{padding-left:14px;padding-right:14px}
+    .card{padding:26px 18px 20px;border-radius:26px}
+    .pack .tile{--s:76px}
+  }
+
+  /* Las mismas dos preferencias que respeta el launcher. Sin transparencia, la lámina
+     pasa a un material opaco; sin movimiento, nada se mueve. */
+  @media (prefers-reduced-transparency:reduce){
+    .card{background:#101812;-webkit-backdrop-filter:none;backdrop-filter:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .mesh,.card{animation:none}
+    .btn{transition:none}
+  }
+</style>
+</head>
+<body>
+  <!-- El dino, una sola vez: la marca y el icono de reserva lo reutilizan. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="dino" viewBox="0 0 22 21"><path fill="#053C1E" d="M17 0h4v1h-4zM16 1h1v1h-1zM20 1h2v1h-2zM15 2h1v1h-1zM18 2h1v1h-1zM21 2h1v1h-1zM15 3h1v1h-1zM19 3h3v1h-3zM15 4h1v1h-1zM18 4h3v1h-3zM15 5h1v1h-1zM18 5h1v1h-1zM15 6h1v1h-1zM18 6h1v1h-1zM15 7h1v1h-1zM18 7h1v1h-1zM15 8h1v1h-1zM18 8h1v1h-1zM15 9h1v1h-1zM18 9h1v1h-1zM10 10h4v1h-4zM15 10h1v1h-1zM18 10h1v1h-1zM8 11h2v1h-2zM14 11h2v1h-2zM18 11h1v1h-1zM7 12h1v1h-1zM18 12h1v1h-1zM6 13h1v1h-1zM18 13h1v1h-1zM5 14h1v1h-1zM17 14h2v1h-2zM4 15h1v1h-1zM7 15h1v1h-1zM17 15h1v1h-1zM0 16h4v1h-4zM7 16h1v1h-1zM16 16h2v1h-2zM1 17h1v1h-1zM6 17h2v1h-2zM10 17h1v1h-1zM13 17h1v1h-1zM16 17h1v1h-1zM2 18h6v1h-6zM10 18h4v1h-4zM16 18h1v1h-1zM7 19h1v1h-1zM10 19h1v1h-1zM13 19h1v1h-1zM17 19h1v1h-1zM7 20h4v1h-4zM13 20h5v1h-5z"/><path fill="#73BF69" d="M17 1h1v1h-1zM16 2h1v1h-1zM16 3h1v1h-1zM16 4h1v1h-1zM16 5h1v1h-1zM16 6h1v1h-1zM16 7h1v1h-1zM16 8h2v1h-2zM16 9h2v1h-2zM16 10h2v1h-2zM16 11h2v1h-2zM10 12h4v1h-4zM16 12h2v1h-2zM8 13h10v1h-10zM7 14h10v1h-10zM6 15h1v1h-1zM8 15h9v1h-9zM5 16h2v1h-2zM8 16h8v1h-8zM4 17h2v1h-2zM8 17h2v1h-2zM11 17h2v1h-2zM14 17h2v1h-2zM8 18h2v1h-2zM14 18h1v1h-1zM8 19h1v1h-1zM14 19h1v1h-1z"/><path fill="#99D984" d="M18 1h2v1h-2zM17 2h1v1h-1zM19 2h2v1h-2zM17 3h2v1h-2zM17 4h1v1h-1zM17 5h1v1h-1zM17 6h1v1h-1zM17 7h1v1h-1zM10 11h4v1h-4zM8 12h2v1h-2zM14 12h2v1h-2zM7 13h1v1h-1zM6 14h1v1h-1zM5 15h1v1h-1zM4 16h1v1h-1zM2 17h2v1h-2zM15 18h1v1h-1zM9 19h1v1h-1zM15 19h2v1h-2z"/></symbol>
+  </svg>
+  <div class="mesh" aria-hidden="true"></div>
+
+  <div class="brand">
+    <span class="tile"><svg class="dino" viewBox="0 0 22 21" shape-rendering="crispEdges" aria-hidden="true"><use href="#dino"/></svg></span>
+    Dino Launcher
+  </div>
+
+  <main class="card">
+    <div class="pack">
+      <div class="tile" id="invIcon"><svg class="dino" viewBox="0 0 22 21" shape-rendering="crispEdges" aria-hidden="true"><use href="#dino"/></svg></div>
+      <div class="from">Te invitaron a jugar</div>
+      <h1 id="invName">Un modpack</h1>
+      <div class="meta" id="invMeta"></div>
+    </div>
+
+    <a class="btn" id="invOpen" href="#">Abrir en Dino Launcher</a>
+
+    <div class="block" id="invSinApp">
+      <p id="invSinAppTxt">¿Todavía no tienes Dino Launcher? Descárgalo, instálalo y vuelve a abrir este link.</p>
+      <a class="btn sec" id="invDownload" href="https://github.com/dinopolllo/dino-launcher-releases/releases/latest">Descargar Dino Launcher</a>
+    </div>
+
+    <div class="block codeblock">
+      <p>O pégalo tú mismo en el <b>+</b> del launcher:</p>
+      <div class="code"><code id="invCode">—</code><button type="button" id="invCopy">Copiar</button></div>
+    </div>
+
+    <p class="error" id="invError" hidden>Este link no trae ningún código. Pídele otra vez la invitación a quien te la pasó.</p>
+  </main>
+
+  <div class="foot">Modpacks y servidor, listos de una vez.</div>
+
+<script>
+(function(){
+  /* El código se normaliza igual que en el launcher: mayúsculas y solo letras y números.
+     Así el que se enseña para copiar es el mismo que el launcher va a buscar. */
+  function normalizar(t){ return String(t || "").replace(/[^a-z0-9]/gi, "").toUpperCase(); }
+
+  var bruto = decodeURIComponent((location.hash || "").slice(1)) ||
+              new URLSearchParams(location.search).get("c") || "";
+  var codigo = normalizar(bruto);
+  var $ = function(id){ return document.getElementById(id); };
+
+  if (!codigo) {
+    $("invOpen").hidden = true;
+    $("invError").hidden = false;
+    return;
+  }
+
+  var enlace = "dinolauncher://join/" + codigo;
+  $("invOpen").href = enlace;
+  $("invCode").textContent = codigo;
+  /* Copiar tiene que copiar siempre. La API del portapapeles solo existe en contextos
+     seguros y algunos navegadores internos de apps de chat la bloquean; sin ella la
+     llamada fallaba en silencio y el botón no hacía nada. El camino viejo —un textarea
+     seleccionado y `execCommand`— funciona casi en cualquier sitio, y si tampoco, se
+     deja el código seleccionado para que baste con Ctrl+C. */
+  function copiarViejo(texto){
+    var t = document.createElement("textarea");
+    t.value = texto; t.setAttribute("readonly", "");
+    t.style.position = "fixed"; t.style.top = "-1000px"; t.style.opacity = "0";
+    document.body.appendChild(t);
+    t.select(); t.setSelectionRange(0, texto.length);   /* iOS no hace caso a select() */
+    var hecho = false;
+    try { hecho = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(t);
+    return hecho;
+  }
+  function copiar(texto){
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(texto).then(
+        function(){ return true; },
+        function(){ return copiarViejo(texto); });
+    }
+    return Promise.resolve(copiarViejo(texto));
+  }
+  var reponer;
+  $("invCopy").addEventListener("click", function(){
+    var b = $("invCopy");
+    copiar(codigo).then(function(hecho){
+      if (hecho) {
+        b.textContent = "Copiado";
+        b.classList.add("copied");
+      } else {
+        var r = document.createRange(); r.selectNodeContents($("invCode"));
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        b.textContent = "Ctrl+C";
+      }
+      /* Vuelve a «Copiar»: quien lo pega mal y vuelve a por él tiene que ver que puede
+         copiarlo otra vez. */
+      clearTimeout(reponer);
+      reponer = setTimeout(function(){ b.textContent = "Copiar"; b.classList.remove("copied"); }, 1800);
+    });
+  });
+
+  /* Mucha gente abre el link en el móvil, donde el launcher no existe: ahí no se
+     intenta abrirlo —daría un error del navegador— y se explica que es para PC y Mac. */
+  var movil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (movil) {
+    $("invOpen").hidden = true;
+    /* En el móvil el instalador no sirve de nada: el texto ya dice que es para PC y Mac. */
+    $("invDownload").hidden = true;
+    $("invSinAppTxt").textContent =
+      "Dino Launcher es para PC y Mac: abre este link desde tu computadora.";
+  } else {
+    /* Se intenta abrir el launcher solo, una vez. Si no está instalado el navegador no
+       hace nada visible, y para eso está la sección de descarga justo debajo. */
+    setTimeout(function(){ location.href = enlace; }, 400);
+  }
+
+  /* La ficha del pack, del mismo catálogo que usa el launcher: primero la API, que
+     está al día, y si se agotó su cupo, el CDN. Es solo para enseñar qué es; si falla,
+     la página funciona igual con el código. Nada de lo que viene del catálogo se pinta
+     como HTML. */
+  var fuentes = [
+    ["https://api.github.com/repos/dinopolllo/dino-launcher-releases/contents/catalog.json?ref=main",
+     { headers: { "Accept": "application/vnd.github.raw" } }],
+    ["https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/main/catalog.json", {}]
+  ];
+  function leer(i){
+    if (i >= fuentes.length) return Promise.reject();
+    return fetch(fuentes[i][0], fuentes[i][1])
+      .then(function(r){ if (!r.ok) throw r.status; return r.json(); })
+      .catch(function(){ return leer(i + 1); });
+  }
+  leer(0).then(function(cat){
+    var p = (cat.packs || []).filter(function(x){ return normalizar(x.code) === codigo; })[0];
+    if (!p) return;
+    document.title = p.name + " · Dino Launcher";
+    $("invName").textContent = p.name;
+    var partes = [];
+    if (p.minecraft) partes.push("Minecraft " + p.minecraft);
+    if (p.loader) partes.push(p.loader);
+    if (p.mods) partes.push(p.mods + " mods");
+    $("invMeta").textContent = partes.join(" · ");
+    if (p.icon) {
+      var img = document.createElement("img");
+      img.alt = ""; img.src = p.icon;
+      $("invIcon").appendChild(img);
+    }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
