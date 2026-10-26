@@ -29,18 +29,18 @@
       "version": "1.0.0"
     },
     {
-      "bytes": 234772825,
+      "bytes": 405493753,
       "code": "VOIDTEST",
-      "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/afe1a3f97f00155fb007773362c0ff010b7dd580/packs/void-test.png",
+      "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/7ea4f5ab216a0fd4cb2113168cd05c6dc6094d4c/packs/void-test.png",
       "id": "void-test",
       "loader": "NeoForge 21.1.251",
       "minecraft": "1.21.1",
-      "mods": 112,
-      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-void-test/void-test-4e290177.mrpack",
+      "mods": 127,
+      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-void-test/void-test-0a67819b.mrpack",
       "name": "Void Test",
       "server": null,
-      "sha512": "4e290177db0034ae02a58070627ba0c7717ce4227020130d017e98c9945d70739c8c0735a42b2160b9670870716cdd9be2cbdb45d68a6b89e5e1e5fa316be313",
-      "version": "2.0.0"
+      "sha512": "0a67819be345eb42378bd439fb5836921891599aacdaaf8ecc9abc12316e0afd16725f0e95ea6bd2d2ddeddc688b7d222ac7d237ab241a8a4c4ac1f0f39b15ff",
+      "version": "3.0.0"
     }
   ]
 }
