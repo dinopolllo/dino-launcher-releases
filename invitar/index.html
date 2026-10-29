@@ -59,6 +59,23 @@
   *{box-sizing:border-box}
   [hidden]{display:none!important}
 
+  /* Los pasos de después de pulsar Descargar. Aparecen solo entonces: antes serían
+     ruido delante de quien ya tiene el launcher. */
+  /* Alineados a la izquierda aunque la tarjeta esté centrada: son pasos que se siguen
+     en orden, y centrados los números quedan sueltos y el texto sin margen que seguir.
+     `list-style-position:outside` deja la numeración colgando en la sangría, que es lo
+     que hace que las tres líneas empiecen en la misma vertical. */
+  .pasos{
+    margin:14px 0 0;padding-left:22px;text-align:left;
+    list-style-position:outside;
+    color:var(--dim);font-size:13.5px;line-height:1.6;
+  }
+  .pasos li+li{margin-top:7px}
+  .pasos li::marker{color:var(--faint);font-variant-numeric:tabular-nums}
+  .pasos b{color:var(--text);font-weight:600}
+  .pasos-pie{margin:10px 0 0;text-align:left;color:var(--faint);font-size:12.5px}
+  .pasos-pie a{color:var(--dim)}
+
   /* El fondo va en `html` y no en `body`: el mesh está en z-index -1, y un fondo en
      `body` se pintaría encima de él. */
   html{background:var(--ink)}
@@ -298,8 +315,19 @@
     <a class="btn" id="invOpen" href="#">Abrir en Dino Launcher</a>
 
     <div class="block" id="invSinApp">
-      <p id="invSinAppTxt">¿Todavía no tienes Dino Launcher? Descárgalo, instálalo y vuelve a abrir este link.</p>
-      <a class="btn sec" id="invDownload" href="https://github.com/dinopolllo/dino-launcher-releases/releases/latest">Descargar Dino Launcher</a>
+      <p id="invSinAppTxt">¿Todavía no tienes Dino Launcher? Descárgalo, ábrelo y vuelve a este link.</p>
+      <a class="btn sec" id="invDownload" href="https://github.com/dinopolllo/dino-launcher-releases/releases/latest/download/DinoLauncher-Windows-setup.exe">Descargar Dino Launcher</a>
+      <!-- Lo que toca hacer con el archivo, y el aviso de Windows: es el punto donde
+           más gente abandona, porque parece que la app es peligrosa. -->
+      <ol class="pasos" id="invPasos" hidden>
+        <li>Se está descargando <b id="invArchivo">el instalador</b>. Ábrelo cuando termine.</li>
+        <li id="invAviso">Si Windows dice que no reconoce la aplicación, pulsa
+          <b>Más información</b> y luego <b>Ejecutar de todas formas</b>.</li>
+        <li>Cuando se abra el launcher, vuelve aquí y pulsa <b>Abrir en Dino Launcher</b>.</li>
+      </ol>
+      <p class="pasos-pie" id="invManual" hidden>¿No empezó la descarga?
+        <a id="invManualLink" href="https://github.com/dinopolllo/dino-launcher-releases/releases/latest">Búscala aquí</a>.
+      </p>
     </div>
 
     <div class="block codeblock">
@@ -373,6 +401,28 @@
       clearTimeout(reponer);
       reponer = setTimeout(function(){ b.textContent = "Copiar"; b.classList.remove("copied"); }, 1800);
     });
+  });
+
+  /* El botón baja **el instalador**, no la página de descargas de GitHub. El nombre del
+     archivo no lleva la versión dentro: el workflow publica una copia con nombre fijo en
+     cada release, así que `releases/latest/download/<nombre>` sigue valiendo cuando
+     salga la siguiente y el enlace no se rompe nunca.
+     Antes esto llevaba a la lista de archivos de GitHub, y ahí es donde se perdía quien
+     no sabe cuál de todos le toca. */
+  var RELEASES = "https://github.com/dinopolllo/dino-launcher-releases/releases";
+  var mac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var INSTALADOR = mac
+    ? { archivo: "DinoLauncher-macOS.dmg", como: "el .dmg" }
+    : { archivo: "DinoLauncher-Windows-setup.exe", como: "el instalador" };
+  $("invDownload").href = RELEASES + "/latest/download/" + INSTALADOR.archivo;
+  $("invDownload").addEventListener("click", function(){
+    $("invArchivo").textContent = INSTALADOR.como;
+    if (mac) {
+      $("invAviso").textContent =
+        "Arrastra Dino Launcher a Aplicaciones. La primera vez, ábrelo con clic derecho → Abrir.";
+    }
+    $("invPasos").hidden = false;
+    $("invManual").hidden = false;
   });
 
   /* Mucha gente abre el link en el móvil, donde el launcher no existe: ahí no se
