@@ -29,18 +29,18 @@
       "version": "1.0.0"
     },
     {
-      "bytes": 405493753,
+      "bytes": 226249977,
       "code": "VOIDTEST",
       "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/7ea4f5ab216a0fd4cb2113168cd05c6dc6094d4c/packs/void-test.png",
       "id": "void-test",
-      "loader": "NeoForge 21.1.251",
+      "loader": "neoforge 21.1.251",
       "minecraft": "1.21.1",
-      "mods": 127,
-      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-void-test/void-test-0a67819b.mrpack",
-      "name": "Void Test",
+      "mods": 128,
+      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-voidsafio/voidsafio-558cd645.mrpack",
+      "name": "VoidSafio",
       "server": null,
-      "sha512": "0a67819be345eb42378bd439fb5836921891599aacdaaf8ecc9abc12316e0afd16725f0e95ea6bd2d2ddeddc688b7d222ac7d237ab241a8a4c4ac1f0f39b15ff",
-      "version": "3.0.0"
+      "sha512": "558cd6452c7dab447d91fd20acc7d4794a668ce935d7daf00935898e2a4b93568dbdc0db232c7a6f3def54fda72d756b9b73760db6c2511892930a69c70840c3",
+      "version": "3.2.0"
     },
     {
       "code": "VOIDSAFIO",
