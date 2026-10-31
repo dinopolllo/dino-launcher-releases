@@ -2,47 +2,6 @@
   "formatVersion": 1,
   "packs": [
     {
-      "bytes": 8262,
-      "code": "DINOSMP",
-      "id": "dinosmp",
-      "loader": "Fabric 0.19.5",
-      "minecraft": "26.2",
-      "mods": 52,
-      "mrpack": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/main/packs/dinosmp.mrpack",
-      "name": "Dino SMP",
-      "server": "mc.universocraft.com",
-      "sha512": "42dfbdb8bf64a681ce5f27692bcd1a12c05fc8feb8bf90cb3d550f86ce42172e8995c26e1edcb02be2b1b96f2b28342e9070d437b7dc5062865b98c57670ea68",
-      "version": "1.0.0"
-    },
-    {
-      "bytes": 8423,
-      "code": "AMEN",
-      "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/main/packs/dinosmp.png",
-      "id": "dinosmp",
-      "loader": "Fabric 0.19.5",
-      "minecraft": "26.2",
-      "mods": 53,
-      "mrpack": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/main/packs/dinosmp.mrpack",
-      "name": "dinotesteooo",
-      "server": null,
-      "sha512": "bbeca7ba7275ca92fc5576cddc5953483b6c7242619ec9e34d7e746b27f588a8747d500a4107fed2d90a73a921f17acbd8af8aa00cc02f61d9e90bb3949713f8",
-      "version": "1.0.0"
-    },
-    {
-      "bytes": 226249977,
-      "code": "VOIDTEST",
-      "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/7ea4f5ab216a0fd4cb2113168cd05c6dc6094d4c/packs/void-test.png",
-      "id": "void-test",
-      "loader": "neoforge 21.1.251",
-      "minecraft": "1.21.1",
-      "mods": 128,
-      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-voidsafio/voidsafio-558cd645.mrpack",
-      "name": "VoidSafio",
-      "server": null,
-      "sha512": "558cd6452c7dab447d91fd20acc7d4794a668ce935d7daf00935898e2a4b93568dbdc0db232c7a6f3def54fda72d756b9b73760db6c2511892930a69c70840c3",
-      "version": "3.2.0"
-    },
-    {
       "code": "VOIDSAFIO",
       "id": "voidsafio",
       "name": "VoidSafio",
