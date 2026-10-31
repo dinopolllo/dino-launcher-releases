@@ -41,6 +41,20 @@
       "server": null,
       "sha512": "0a67819be345eb42378bd439fb5836921891599aacdaaf8ecc9abc12316e0afd16725f0e95ea6bd2d2ddeddc688b7d222ac7d237ab241a8a4c4ac1f0f39b15ff",
       "version": "3.0.0"
+    },
+    {
+      "bytes": 490987434,
+      "code": "VOIDSAFIO",
+      "icon": "https://raw.githubusercontent.com/dinopolllo/dino-launcher-releases/9d9fd45490f1318304c81c92c0252cbe5d3ebc85/packs/voidsafio.png",
+      "id": "voidsafio",
+      "loader": "NeoForge 21.1.251",
+      "minecraft": "1.21.1",
+      "mods": 124,
+      "mrpack": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/pack-voidsafio/voidsafio-2eacf1a8.mrpack",
+      "name": "Voidsafio",
+      "server": "212.192.29.52:25571",
+      "sha512": "2eacf1a8dcdffc749aaa5dc1cc5066738f872d6c42ce1361c17a6dc61ad3fc249f6e3b59982fb2f8cb6b4de6eda522f32039bcf61daa43b1e299a99d9a4d4cf4",
+      "version": "3.0.0"
     }
   ]
 }
