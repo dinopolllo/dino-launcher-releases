@@ -1,15 +1,15 @@
 {
-  "version": "2.0.3",
-  "notes": "Dino Launcher 2.0.3",
-  "pub_date": "2026-11-24T22:40:37.591Z",
+  "version": "2.0.4",
+  "notes": "Dino Launcher 2.0.4",
+  "pub_date": "2026-11-25T07:25:49.077Z",
   "platforms": {
     "darwin-universal": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbFVRYkNieUgzekpCUGdGeUs2VkRrdVlYNnJkR0wvWm1vckQybEFoVzZodUJLZGZ4dzNMM0hwM3B6aUoxM1Z1M1hjM21qZjhYMlNLWmZRalhmMTlxblA0YVVvUzduWmdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTU5OTkwCWZpbGU6RGlubyBMYXVuY2hlci5hcHAudGFyLmd6ClRDZVBkcE1NOUdjZms1V210REhBeS9GY0gvblFEazhNNWxGUzgxcWRQNUJNZ3pJc3VmZTZtdkxUdkRaeHpoSkh1UndJalYwUzM1UEx4NDUrZHc1TEFRPT0K",
-      "url": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/v2.0.3/dino-launcher_2.0.3_universal.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbFVRYkNieUgzekg4NFBVRkRNNFJIZmN2ME9kTjN5QUhQbUozWVRsYzA4SnkwVWduc0VJYXkxR0JpZDZGcnA4d1k1eUQxYkRPU2I3UlBYOFIzVEdQb1h5ZEFrV0Fub2c0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTkxMzAyCWZpbGU6RGlubyBMYXVuY2hlci5hcHAudGFyLmd6CitDSUtwc256UHdVbjJEeFA2K2JZWmNac3pseWJrRlN3RmdTNHc3VHBQY2lsbkVxSDU4K2RwZ0hYMHZ1dUY2WllyTUl6SXQxOXprczZuQkc1eFBGOURnPT0K",
+      "url": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/v2.0.4/dino-launcher_2.0.4_universal.app.tar.gz"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbFVRYkNieUgzekZZclZTRWFqcUNTblZZMUFIRzhScTJuSGZwQ292amFXclB5ZnFPdC9RamNWYThlUWg0NjVOWjdTQVdvS3hVOG54OXZZcENjYkNSMWJ0NWhNNkdYOXd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTU5NzQ3CWZpbGU6RGlubyBMYXVuY2hlcl8yLjAuM194NjQtc2V0dXAuZXhlCkFpRnR2cXhYS01QQlRUY3g5UGxWSmREZjdUVEQxTzdQVHAyOEpCd3QzcFFSa2ZCSlcxTzNoOHovbk4vNjdhdCthdHhsRnQ0Ni9iZ3k2cXl5MlVKS0RnPT0K",
-      "url": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/v2.0.3/dino-launcher_2.0.3_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRbFVRYkNieUgzekZ2cnkydjFmVjRVb1N4SXN2cWhFdXRuQnJVOHE5VUdMblNuMEVEK1Q4c0hmWTNEcnVuS3JBeEtFSUZuaUVESUhtUHVScjAzaTliaGdjMGgwTVBZOWdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTkxNDg3CWZpbGU6RGlubyBMYXVuY2hlcl8yLjAuNF94NjQtc2V0dXAuZXhlCmxpLzNDMVBjYW1jUkp0ckppaFQ3VWxpMGJHRGEwa1FPcVUvYjdYK0liMzZRZk5rOStIenkvczZMQ1Frbk53RVIwSGVDMWdudmhLdkU2cElrdWkxQkFRPT0K",
+      "url": "https://github.com/dinopolllo/dino-launcher-releases/releases/download/v2.0.4/dino-launcher_2.0.4_x64-setup.exe"
     }
   }
 }
